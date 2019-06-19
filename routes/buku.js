@@ -26,10 +26,10 @@ module.exports = router => {
                 .then(result => {
 
                     // res.setHeader('Location', '/user/' + email);
-                    res.status(result.status).json({message: result.message})
+                    res.status(result.status).json({success : true,message: result.message})
                 })
 
-                .catch(err => res.status(err.status).json({message: err.message}));
+                .catch(err => res.status(err.status).json({success : false,message: err.message}));
         }
     });
 
@@ -39,10 +39,10 @@ module.exports = router => {
         bukuController.dataBuku()
             .then(result => {
                     console.log(result)
-                    res.status(result.status).json({message: result.message})
+                    res.status(result.status).json({success : true,message: result.message})
             })
 
-            .catch(err => res.status(err.status).json({message: err.message}));
+            .catch(err => res.status(err.status).json({success : false,message: err.message}));
     });
 
 
@@ -67,9 +67,9 @@ module.exports = router => {
                 .then(result => {
 
                     // res.setHeader('Location', '/user/' + email);
-                    res.status(result.status).json({message: result.message})
+                    res.status(result.status).json({success : true,message: result.message})
                 })
-                .catch(err => res.status(err.status).json({message: err.message}));
+                .catch(err => res.status(err.status).json({success : false,message: err.message}));
         }
     });
 
@@ -87,10 +87,28 @@ module.exports = router => {
             bukuController.hapusBuku(kodebuku)
 
                 .then(result => {
-                    res.status(result.status).json({message: result.message})
+                    res.status(result.status).json({success : true,message: result.message})
                 })
-                .catch(err => res.status(err.status).json({message: err.message}));
+                .catch(err => res.status(err.status).json({success : false,message: err.message}));
         }
     });
 
-}
+    //menampilkan data petani berdasarkan ktp
+    router.post('/getDataBuku', (req, res) => {
+
+        if (!req.body.kodebuku || !req.body.kodebuku.trim() ) {
+
+            res.status(400).json({message: 'Gagal'});
+
+        } else {
+
+            bukuController.dataBukuId(req.body.kodebuku)
+
+                .then(result => {
+                    res.status(result.status).json({success : true,message: result.message})
+                })
+
+                .catch(err => res.status(err.status).json({success : true,message: err.message}));
+        }
+    });
+};

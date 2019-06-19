@@ -92,3 +92,21 @@ exports.hapusBuku = (kodebuku) =>
             });
     });
 
+exports.dataBukuId = (kodebuku) =>
+    new Promise((resolve,reject) => {
+
+        const ids = ({
+            kodebuku:kodebuku
+        });
+
+        buku.findOne(ids)
+            .then(ressults => {
+                if (ressults.length == 0) {
+                    reject({status: 200, message: 'tidak ada data' });
+                } else {
+                    resolve({ status: 200, message: ressults});
+                }
+            }).catch(err =>{
+            reject({ status: 200, message: 'Data tidak ditemukan' });
+        })
+    });
